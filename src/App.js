@@ -1,23 +1,12 @@
 import './assets/App.css';
 import { useContext } from 'react';
 import { ethers } from 'ethers';
-import YouTube from 'react-youtube';
-
 import { AuthContext } from './components/AuthProvider';
 
 function App() {
   const authInfos = useContext(AuthContext);
-  //const youtubeVideoId = "-tJYN-eG1zk";
+  const youtubeVideoId = "-tJYN-eG1zk";
   let contractAddress = "0x4Da5b018ea6C11280a1739719aE753eB39001d11";
-
-  const opts = {
-    //height: '390',
-    //width: '640',
-    playerVars: {
-      // https://developers.google.com/youtube/player_parameters
-      autoplay: 1
-    }
-  };
 
   function btnConnect() {
     console.log('-- btnConnect --');
@@ -89,8 +78,14 @@ function App() {
 
         <div className="App-video">
         {/*authInfos.selectedAddress !== undefined ? (<YouTube videoId={youtubeVideoId} opts={opts} />) : <span>pas youtube</span>*/}
-        <YouTube videoId="-tJYN-eG1zk" containerClassName="embed embed-youtube" opts={opts} />
-        {/*<a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a>*/}
+          <iframe
+            width="853"
+            height="480"
+            src={`https://www.youtube.com/embed/${youtubeVideoId}`}
+            frameBorder="0"
+            allowFullScreen
+            title="Video youtube"
+          />
         </div>
 
         <div className="App-div-Button">
