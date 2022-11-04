@@ -3,24 +3,21 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100px;
+  background-color: black;
+  padding-top: 30px;
+  padding-bottom: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /*font-size: calc(10px + 2vmin);*/
   font-size: calc(50px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
 .App-corps {
-  min-width: 200px;
-  min-height: 200px;
+  background-color: black;
+  min-width: 400px;
+  min-height: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,8 +31,18 @@
   border-radius: 10px;
 }
 
+.App-texte {
+  background-color: #404040;
+  padding-top: 50px;
+  min-width: 400px;
+  min-height: 400px;
+  border: 2px solid white;
+  border-radius: 10px;
+  color: white;
+}
+
 .App-div-Button {
-  margin-top: 20px;
+  margin-top: 40px;
   margin-bottom: 20px;
 }
 
@@ -48,4 +55,23 @@
   background: linear-gradient(#C5C5FF, #4d4df1, #C5C5FF);
   color: #FFFFFF;
   cursor:pointer;
+}
+
+@media screen and (max-width: 400px) {
+  .App-corps {
+    min-width: 300px;
+    min-height: 300px;
+    /*max-width: 33vh;
+    max-height: 33vh;*/
+  }
+
+  .App-video {
+    min-width: 300px;
+    min-height: 300px;
+  }
+
+  .App-texte {
+    min-width: 300px;
+    min-height: 300px;
+  }
 }

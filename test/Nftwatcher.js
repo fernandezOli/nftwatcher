@@ -8,7 +8,7 @@ describe("Nftwatcher: Tests", function () {
   beforeEach(async function () {
 
     // Create signers
-    [owner, julien, fred, olivier] = await ethers.getSigners();
+    [owner, julien] = await ethers.getSigners();
 
     const contract = await ethers.getContractFactory("Nftwatcher");
     Nftwatcher = await contract.deploy();
@@ -30,6 +30,15 @@ describe("Nftwatcher: Tests", function () {
     });
   });
 
+  describe("Tests withdraw", function () {
+    it("Buy NFT and withdraw", async function () {
+      expect(await ethers.provider.getBalance(Nftwatcher.address)).to.equal(0);
+      await Nftwatcher.connect(julien).buy({value: BigInt(10**17)});
+      expect(await ethers.provider.getBalance(Nftwatcher.address)).to.gt(0);
+      await Nftwatcher.withdraw();
+      expect(await ethers.provider.getBalance(Nftwatcher.address)).to.equal(0);
+    });
+  });
 });
 
 

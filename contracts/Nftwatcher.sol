@@ -7,7 +7,7 @@ contract Nftwatcher is ERC721 {
 
 	address private _owner;
 	uint256 private _tokenIdCounter = 0;
-	uint256 private _price = 10**17; // 0.1 token
+	uint256 public _price = 10**14; // 0.0001 token (100000 Gwei - 100000000000000 wei)
 
     modifier onlyOwner() {
         require(_owner == msg.sender, "Only owner");
@@ -20,9 +20,13 @@ contract Nftwatcher is ERC721 {
 
 	/// @notice mint a new copy and assign it to the user
 	function buy() public payable {
-		require(msg.value == _price, string(abi.encodePacked("You need to pay 0.1 token to buy the NFT")));
+		require(msg.value == _price, "You need to pay 0.0001 token to buy the NFT");
 		_tokenIdCounter++;
 		_safeMint(msg.sender, _tokenIdCounter);
+	}
+
+	function totalSupply() public view returns (uint256) {
+		return _tokenIdCounter;
 	}
 
 	function withdraw() public payable onlyOwner {
