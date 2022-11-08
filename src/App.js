@@ -51,11 +51,11 @@ function App() {
 
   async function onTransaction() {
     console.log('onTransaction...');
-    sleep(5000);
+    await sleep(5000);
     setUserAccess();
   }
 
-  function sleep(milliseconds) {
+  async function sleep(milliseconds) {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
   }
 
@@ -81,6 +81,7 @@ function App() {
     if (accessNFT) setAccessNFT(false);
     // buy nft
     if (!await buyNFT()) return;
+    await sleep(5000);
     setUserAccess();
   }
 
