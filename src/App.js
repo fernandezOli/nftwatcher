@@ -32,10 +32,11 @@ function App() {
 
   async function setUserAccess() {
     console.log('setUserAccess...');
-    console.log('setUserAccess = ', accessNFT);
+    //console.log('setUserAccess = ', accessNFT);
     if (await checkNFT() === 0) {
       /*if (accessNFT)*/ setAccessNFT(false);
       console.log('setUserAccess to false');
+      NFTwatch.stop();
       return;
     }
     /*if (!accessNFT)*/ setAccessNFT(true);
@@ -81,7 +82,7 @@ function App() {
     if (accessNFT) setAccessNFT(false);
     // buy nft
     if (!await buyNFT()) return;
-    await sleep(5000);
+    //await sleep(5000);
     setUserAccess();
   }
 
@@ -101,7 +102,7 @@ function App() {
       ];
       const contractTicket = new ethers.Contract(contractAddress, contractABI, signer);
       const result = await contractTicket.balanceOf(authInfos.selectedAddress[0]);
-      console.log('checkNFT result: ', parseInt(result._hex));
+      //console.log('checkNFT result: ', parseInt(result._hex));
       return parseInt(result._hex);
     }
     catch(error) {
@@ -135,8 +136,13 @@ function App() {
       const contract = new ethers.Contract(contractAddress, contractABI, signer);
       const transaction = await contract.buy({ value: price.toString(), gasPrice: fastGasPrice });
       console.log('waiting transaction ...');
-      //console.log("transaction: " + transaction.hash);
-      await authInfos._provider.waitForTransaction(transaction.hash, 1);
+      console.log("transaction: ", transaction);
+      const waitTransaction = await authInfos._provider.waitForTransaction(transaction.hash);
+      console.log("waitTransaction: ", waitTransaction);
+      const lastest = await authInfos._provider.getBlock('latest');
+      console.log("latest: ", lastest.number);
+      await NFTwatch.confirmTransaction(authInfos._provider,lastest.number + 1, 1);
+      await sleep(5000);
       console.log("buy successfull !!");
       loaderStop();
       return true;

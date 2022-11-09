@@ -47,7 +47,7 @@ class NftWatcher {
           console.log('transaction (from): ', result.transactions[i]);
           // wait transaction to finish
           //await this.provider.waitForTransaction(result.transactions[i].hash,1);
-          await this.confirmTransaction(result.transactions[i].blockNumber, 1);
+          await this.confirmTransaction(this.provider, result.transactions[i].blockNumber, 1);
           break;
         }
       }
@@ -60,14 +60,14 @@ class NftWatcher {
   }
 
   //**** wait confirm transaction ****
-  async confirmTransaction(blockNumber, blocksToWait) {
+  async confirmTransaction(provider, blockNumber, blocksToWait) {
     console.log('waiting confirmation ...');
     let oldNumber = blockNumber;
     try {
       for (let i = 0; i < 10; i++) {
-        await this.sleep(5000);
+        await this.sleep(2000);
         try {
-          var current = await this.provider.getBlock('latest');
+          var current = await provider.getBlock('latest');
           if (current.number - blockNumber >= blocksToWait) {
             return true;
           }
