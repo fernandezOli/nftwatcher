@@ -51,7 +51,7 @@ function App() {
 
   async function onTransaction() {
     console.log('onTransaction...');
-    await sleep(5000);
+    //await sleep(5000);
     setUserAccess();
   }
 
