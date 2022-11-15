@@ -8,13 +8,12 @@ import NftWatcher from "./NftWatcherClass";
 import eyeOfHorus from './assets/eye-of-horus-32.png';
 import loader from './assets/loader.svg';
 
-
 function App() {
   const [accessNFT, setAccessNFT] = useState(false);
 
   const authInfos = useContext(AuthContext);
   let NFTwatch = new NftWatcher();
-  const youtubeVideoId = "-tJYN-eG1zk";
+  const youtubeVideoId = "em2iO_ko79k";
   let contractAddress = "0x6243763323F150Fc46A70d3624D29226a63f0c9F"; // Warning, case sensitive !!!
 
   useEffect(() => {
@@ -32,21 +31,19 @@ function App() {
 
   async function setUserAccess() {
     console.log('setUserAccess...');
-    //console.log('setUserAccess = ', accessNFT);
     if (await checkNFT() === 0) {
-      /*if (accessNFT)*/ setAccessNFT(false);
+      setAccessNFT(false);
       console.log('setUserAccess to false');
       NFTwatch.stop();
       return;
     }
-    /*if (!accessNFT)*/ setAccessNFT(true);
+    setAccessNFT(true);
     console.log('setUserAccess to true');
     startWatcher();
   }
 
   //**** Watcher ****
   async function startWatcher() {
-    //console.log('-- startWatcher --');
     NFTwatch.start(authInfos._provider, contractAddress, authInfos.selectedAddress, onTransaction);
   }
 

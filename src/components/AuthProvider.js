@@ -18,14 +18,12 @@ const AuthProvider = ({ children }) => {
     return;
   }
 
-  const _provider = new ethers.providers.Web3Provider(window.ethereum);
+  const _provider = new ethers.providers.Web3Provider(window.ethereum, "any");
 
   const _checkNetwork = async() => {
     if (window.ethereum.networkVersion === NETWORK_ID_STR) {
       return true;
     }
-    //setNetworkError('Switch network, please :)');
-    //await _switchNetwork(NETWORK_ID_HEX);
     return false;
   };
 
@@ -47,31 +45,27 @@ const AuthProvider = ({ children }) => {
 
   const _connectWallet = async () => {
     console.log('connect Wallet ...')
-    if (!await _checkNetwork()) {
-      return;
+    try {
+      if (!await _checkNetwork()) {
+        await _switchNetwork(NETWORK_ID_HEX);
+        window.location.reload();
+      }
+      const userAddress = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      _initialize(userAddress);
+    } catch (e) {
+      console.error('Error while connecting Wallet: ', e);
     }
-    const userAddress = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    _initialize(userAddress);
-      //_checkNetwork()
 
     // init events
     window.ethereum.on('accountsChanged', ([newAddress]) => {
       console.log('accountsChanged !');
-      if (newAddress === undefined) {
-        return _resetState();
-      }
-      _initialize(newAddress);
+      window.location.reload();
     });
 
     window.ethereum.on('chainChanged', ([networkId]) => {
-      console.log('chainChanged: ',networkId);
-      //_checkNetwork()
-      //window.location.reload();
+      console.log('Event chainChanged: ',networkId);
+      window.location.reload();
     });
-  };
-
-  const _resetState = () => {
-    setSelectedAddress(undefined);
   };
 
   const _switchNetwork = async(hexNetworkId) => {
@@ -82,7 +76,6 @@ const AuthProvider = ({ children }) => {
     }
     try {
       await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: hexNetworkId }] });
-      _connectWallet();
     } catch (e) {
       if (e.code === 4902) {
         alert('Unknow network, please add it before retry.');

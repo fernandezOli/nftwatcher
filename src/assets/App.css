@@ -27,8 +27,7 @@
 .App-video {
   min-width: 400px;
   min-height: 400px;
-  border: 10px solid white;
-  border-radius: 10px;
+  border: 6mm ridge rgba(224, 224, 224, .6);
 }
 
 .App-texte {
